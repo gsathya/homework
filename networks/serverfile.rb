@@ -8,10 +8,11 @@ def run()
   while true
     Thread.start(server.accept) do |sock|
       puts "#{sock} connected at #{Time.now}"
+      sock.puts 'Connected'
       
       until sock.eof? do 
         @msg = sock.gets.strip
-        puts "User entered : #{@msg}"
+        puts "Client : #{@msg}"
         
         if @msg.match /hi|hello|hey/i
           sock.puts 'Hello!'
@@ -31,7 +32,8 @@ def run()
         end
         
         if @msg.match /quit/i 
-          puts "User quit"
+          sock.puts "Exit"
+          puts "Exit"
           server.close 
         end
       end
