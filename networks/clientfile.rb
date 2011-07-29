@@ -2,40 +2,23 @@ require 'socket'
 
 def run()
   
-  @socket = TCPSocket.new('localhost',4040)
+  client = TCPSocket.new('localhost',2000)
   
-  puts "Client is connected from #{@socket.addr[2]} to #{@socket.peeraddr[2]} at #{Time.now}"
-  
-  #@commands = ARGF.argv
-  while true do
-=begin 
-    @commands = ["hi","bye"]
-    
-    @commands.each do |command|
-      
-      puts "#{command} sent to Server"
-      @socket.write command
-      
-      until @socket.eof? do
-        puts "Waiting for server to respond "
-        @answer = @socket.gets.strip
-        puts "Server : #{@answer}"
-      end
-    end
-=end
+  puts "Client is connected from #{client.addr[2]} to #{client.peeraddr[2]} at #{Time.now}"
 
-    while(gets())
-      @socket.write($_)
-      puts(@socket.gets)
-    end
-    
-    puts "Client #{socket} is closed at #{Time.now}"
-    @socket.close
-  end
+  
+    client.puts("hello")
+    line = client.gets.chop
+    puts line
+    client.close
 end
 
 if __FILE__ == $0
-  run
+  begin
+    run
+  rescue IOError
+    puts "IOError!"
+  end
 end
 
  
